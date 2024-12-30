@@ -1,248 +1,334 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa" dir="rtl">
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <title>Arman Rezaei - Hardware Director</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آرمان رضایی - مدیر سخت‌افزار</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-black text-white min-h-screen overflow-x-hidden">
-  <!-- 3D Background Canvas -->
-  <canvas id="bg" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
-
-  <!-- Navigation -->
-  <nav class="fixed top-0 w-full bg-black bg-opacity-50 backdrop-blur-md z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-      <div class="flex justify-between items-center">
-        <div class="text-green-500 font-bold text-xl">SANA Smart Living</div>
-        <div class="flex space-x-6">
-          <a href="#about" class="text-green-400 hover:text-green-300 transition-colors">About</a>
-          <a href="#portfolio" class="text-green-400 hover:text-green-300 transition-colors">Portfolio</a>
-          <a href="#specs" class="text-green-400 hover:text-green-300 transition-colors">Specs</a>
-          <a href="#contact" class="text-green-400 hover:text-green-300 transition-colors">Contact</a>
+<body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                    SANA Smart Living
+                </div>
+                <div class="flex gap-8">
+                    <a href="#projects" class="text-green-400 hover:text-green-300 transition-all">نمونه کارها</a>
+                    <a href="#contact" class="text-green-400 hover:text-green-300 transition-all">تماس</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- Hero Section -->
-  <div class="relative min-h-screen flex items-center justify-center" id="about">
-    <div class="absolute inset-0 bg-gradient-to-b from-green-900/20 to-black/50"></div>
-    <div class="relative z-10 text-center px-4">
-      <div class="mb-8">
-        <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500" id="mainTitle">
-          آرمان رضایی
-        </h1>
-        <p class="text-2xl md:text-3xl text-green-300 mb-4" id="subtitle" dir="rtl">
-          مدیر سخت‌افزار شرکت زندگی هوشمند سانا
-        </p>
-        <p class="text-xl text-green-400/80 mb-8" dir="rtl">
-          متخصص در طراحی و توسعه سیستم‌های الکترونیکی و IoT
-        </p>
-      </div>
-      <div class="flex justify-center space-x-4">
-        <a href="#portfolio" class="px-8 py-3 bg-green-500 hover:bg-green-400 rounded-full text-black font-bold transition-all transform hover:scale-105">
-          مشاهده نمونه کارها
-        </a>
-        <a href="#contact" class="px-8 py-3 border border-green-500 hover:bg-green-500/20 rounded-full text-green-500 font-bold transition-all transform hover:scale-105">
-          تماس با من
-        </a>
-      </div>
-    </div>
-  </div>
-
-  [Previous portfolio project sections remain the same...]
-
-  <!-- Contact Section -->
-  <div class="py-24 relative" id="contact">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-green-900/20"></div>
-    <div class="max-w-7xl mx-auto px-4 relative">
-      <h2 class="text-4xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
-        تماس با من
-      </h2>
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div class="space-y-8">
-          <div class="contact-card group" onclick="window.location.href='tel:+989999915389'">
-            <div class="flex items-center space-x-4 rtl:space-x-reverse">
-              <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
-                <i class="fas fa-phone text-green-400"></i>
-              </div>
-              <div dir="ltr">
-                <h3 class="text-xl font-bold text-green-400">Phone</h3>
-                <p class="text-gray-400">+98 999 991 5389</p>
-              </div>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center relative">
+        <div id="bg-canvas" class="absolute inset-0 -z-10"></div>
+        <div class="container mx-auto px-4 py-20">
+            <div class="text-center space-y-6">
+                <h1 class="text-6xl md:text-7xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                    آرمان رضایی
+                </h1>
+                <p class="text-2xl md:text-3xl text-green-400">
+                    مدیر سخت‌افزار شرکت زندگی هوشمند سانا
+                </p>
+                <p class="text-xl text-gray-400">
+                    متخصص در طراحی و توسعه سیستم‌های الکترونیکی و IoT
+                </p>
             </div>
-          </div>
-
-          <div class="contact-card">
-            <div class="flex items-center space-x-4 rtl:space-x-reverse">
-              <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
-                <i class="fas fa-building text-green-400"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-green-400">Company</h3>
-                <p class="text-gray-400" dir="rtl">شرکت زندگی هوشمند سانا</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="contact-card">
-            <div class="flex items-center space-x-4 rtl:space-x-reverse">
-              <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
-                <i class="fas fa-user-tie text-green-400"></i>
-              </div>
-              <div>
-                <h3 class="text-xl font-bold text-green-400">Position</h3>
-                <p class="text-gray-400" dir="rtl">مدیر سخت‌افزار</p>
-              </div>
-            </div>
-          </div>
         </div>
+    </section>
 
-        <div class="relative group">
-          <div class="absolute -inset-1 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
-          <div class="relative bg-black rounded-lg p-8">
-            <h3 class="text-2xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500" dir="rtl">
-              تخصص‌های حرفه‌ای
-            </h3>
-            <div class="grid grid-cols-2 gap-4" dir="rtl">
-              <div class="expertise-item">
-                <i class="fas fa-microchip text-green-400 mr-2"></i>
-                طراحی PCB
-              </div>
-              <div class="expertise-item">
-                <i class="fas fa-wifi text-green-400 mr-2"></i>
-                IoT Development
-              </div>
-              <div class="expertise-item">
-                <i class="fas fa-code text-green-400 mr-2"></i>
-                Embedded Systems
-              </div>
-              <div class="expertise-item">
-                <i class="fas fa-home text-green-400 mr-2"></i>
-                خانه هوشمند
-              </div>
+    <!-- Projects Section -->
+    <section id="projects" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                نمونه کارها
+            </h2>
+            
+            <!-- Project 1 -->
+            <div class="project-card mb-24">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
+                    <div class="relative bg-gray-900 rounded-lg p-6">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 class="text-2xl font-bold text-green-400 mb-4">طراحی برد سنسور دما و رطوبت</h3>
+                                <p class="text-gray-300 mb-6">
+                                    طراحی و ساخت برد سفارشی با قابلیت اتصال سنسور DHT22 برای سنجش دما و رطوبت محیط. این برد قابلیت اتصال به شبکه WiFi را دارد و می‌تواند داده‌ها را به سرور مرکزی ارسال کند.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tag">ESP8266</span>
+                                    <span class="tag">DHT22</span>
+                                    <span class="tag">IoT</span>
+                                </div>
+                            </div>
+                            <div class="relative group">
+                                <img src="1.jpeg" alt="برد سنسور دما" class="rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <!-- Project 2 -->
+            <div class="project-card mb-24">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-green-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
+                    <div class="relative bg-gray-900 rounded-lg p-6">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div class="order-2 md:order-1">
+                                <img src="3.jpeg" alt="برد کنترل" class="rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                            <div class="order-1 md:order-2">
+                                <h3 class="text-2xl font-bold text-green-400 mb-4">برد کنترل هوشمند</h3>
+                                <p class="text-gray-300 mb-6">
+                                    طراحی برد کنترلی با قابلیت اتصال به شبکه Wi-Fi و کنترل از راه دور. این برد می‌تواند برای اتوماسیون خانگی و صنعتی مورد استفاده قرار گیرد.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tag">ESP32</span>
+                                    <span class="tag">Automation</span>
+                                    <span class="tag">Smart Home</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
+                    <div class="relative bg-gray-900 rounded-lg p-6">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 class="text-2xl font-bold text-green-400 mb-4">ماژول کنترل رله</h3>
+                                <p class="text-gray-300 mb-6">
+                                    طراحی و ساخت ماژول 4 کاناله رله با قابلیت کنترل از طریق WiFi. این ماژول می‌تواند برای کنترل روشنایی، تجهیزات برقی و سیستم‌های تهویه مطبوع استفاده شود.
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="tag">Relay Control</span>
+                                    <span class="tag">IoT</span>
+                                    <span class="tag">Home Automation</span>
+                                </div>
+                            </div>
+                            <div class="relative group">
+                                <img src="4.jpeg" alt="ماژول رله" class="rounded-lg shadow-xl transform group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="bg-black/80 py-8">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <p class="text-gray-500">© 2024 آرمان رضایی - تمامی حقوق محفوظ است</p>
-    </div>
-  </footer>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-black/30">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                تماس با من
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <div class="space-y-8">
+                    <!-- Phone -->
+                    <div class="contact-card" onclick="window.location.href='tel:+989999915389'">
+                        <i class="fas fa-phone text-green-400 text-xl"></i>
+                        <div>
+                            <h3 class="font-bold text-green-400">شماره تماس</h3>
+                            <p class="text-gray-400">+98 999 991 5389</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Company -->
+                    <div class="contact-card">
+                        <i class="fas fa-building text-green-400 text-xl"></i>
+                        <div>
+                            <h3 class="font-bold text-green-400">شرکت</h3>
+                            <p class="text-gray-400">شرکت زندگی هوشمند سانا</p>
+                        </div>
+                    </div>
 
-  <style>
-    .tech-tag {
-      @apply px-4 py-2 bg-green-900/50 rounded-full text-green-300 text-sm border border-green-500/30 hover:border-green-400 transition-colors;
-    }
-    .spec-card {
-      @apply p-6 rounded-lg bg-gradient-to-b from-green-900/20 to-black border border-green-500/20 text-center hover:border-green-400/40 transition-all transform hover:scale-105 cursor-pointer;
-    }
-    .contact-card {
-      @apply p-6 rounded-lg bg-black/50 border border-green-500/20 hover:border-green-400/40 transition-all transform hover:scale-105 cursor-pointer;
-    }
-    .expertise-item {
-      @apply p-3 bg-green-900/20 rounded-lg text-green-300 flex items-center justify-start hover:bg-green-900/30 transition-colors;
-    }
-  </style>
+                    <!-- Position -->
+                    <div class="contact-card">
+                        <i class="fas fa-briefcase text-green-400 text-xl"></i>
+                        <div>
+                            <h3 class="font-bold text-green-400">سمت</h3>
+                            <p class="text-gray-400">مدیر سخت‌افزار</p>
+                        </div>
+                    </div>
+                </div>
 
-  <script>
-    // Three.js Background Animation
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({
-      canvas: document.querySelector('#bg'),
-      alpha: true
-    });
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
+                    <div class="relative bg-gray-900 rounded-lg p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+                            تخصص‌های حرفه‌ای
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="expertise-item">
+                                <i class="fas fa-microchip text-green-400 ml-2"></i>
+                                طراحی PCB
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-wifi text-green-400 ml-2"></i>
+                                IoT Development
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-code text-green-400 ml-2"></i>
+                                Embedded Systems
+                            </div>
+                            <div class="expertise-item">
+                                <i class="fas fa-home text-green-400 ml-2"></i>
+                                خانه هوشمند
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.position.setZ(30);
+    <!-- Footer -->
+    <footer class="bg-black/80 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500">© 2024 آرمان رضایی - تمامی حقوق محفوظ است</p>
+        </div>
+    </footer>
 
-    // Create a grid of particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 2000;
-    const posArray = new Float32Array(particlesCount * 3);
+    <style>
+        /* Custom Styles */
+        .tag {
+            @apply px-4 py-2 bg-green-900/30 rounded-full text-green-400 text-sm border border-green-500/30 hover:border-green-400/60 transition-all;
+        }
+        .contact-card {
+            @apply flex items-center gap-4 p-6 bg-gray-900/50 rounded-lg border border-green-500/20 hover:border-green-400/40 transition-all cursor-pointer;
+        }
+        .expertise-item {
+            @apply flex items-center p-4 bg-gray-900/50 rounded-lg text-green-400 hover:bg-gray-800 transition-all;
+        }
+    </style>
 
-    for(let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 100;
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.005,
-      color: 0x22c55e
-    });
-
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
-
-    // Animation loop
-    function animate() {
-      requestAnimationFrame(animate);
-      particlesMesh.rotation.y += 0.0003;
-      particlesMesh.rotation.x += 0.0001;
-      renderer.render(scene, camera);
-    }
-
-    animate();
-
-    // Responsive canvas
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // GSAP Animations
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Hero animations
-    gsap.to("#mainTitle", {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      ease: "power3.out"
-    });
-
-    gsap.to("#subtitle", {
-      opacity: 1,
-      y: 0,
-      duration: 1.5,
-      delay: 0.2,
-      ease: "power3.out"
-    });
-
-    // Project cards animation
-    gsap.utils.toArray('.project-card').forEach((card, i) => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: "top bottom-=100",
-          toggleActions: "play none none reverse"
-        },
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        delay: i * 0.2
-      });
-    });
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
+    <script>
+        // Three.js Background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.querySelector('#bg-canvas'),
+            alpha: true
         });
-      });
-    });
-  </script>
+
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.setZ(30);
+
+        // Create particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 2000;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 100;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.005,
+            color: 0x22c55e
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.0003;
+            particlesMesh.rotation.x += 0.0001;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsive canvas
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate project cards on scroll
+        gsap.utils.toArray('.project-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom-=100",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                delay: i * 0.2
+            });
+        });
+
+        // Animate contact cards
+        gsap.utils.toArray('.contact-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top bottom-=50",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 0,
+                x: -30,
+                duration: 0.8,
+                delay: i * 0.1
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Parallax effect for background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            particlesMesh.rotation.y = scrolled * 0.0003;
+            particlesMesh.rotation.x = scrolled * 0.0002;
+        });
+
+        // Initial animations
+        gsap.from('nav', {
+            y: -100,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.from('.hero-content > *', {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+    </script>
 </body>
 </html>
