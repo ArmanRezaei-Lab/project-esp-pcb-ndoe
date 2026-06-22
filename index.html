@@ -1,642 +1,961 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آرمان رضایی - مدیر سخت‌افزار</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
-        * {
-            font-family: 'Vazirmatn', sans-serif;
-        }
-        
-        :root {
-            --primary: #00ff9d;
-            --primary-dark: #00cc7e;
-            --secondary: #6e00ff;
-            --dark: #0a0a0a;
-            --light: #ffffff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>آرمان رضایی | مدیر سخت‌افزار سانا</title>
 
-        .glow {
-            box-shadow: 0 0 20px var(--primary);
-        }
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        .gradient-border {
-            position: relative;
-            background: var(--dark);
-            border-radius: 0.5rem;
-        }
+  <style>
+    :root {
+      --primary: #00ff9d;
+      --primary-dark: #00cc7e;
+      --secondary: #6e00ff;
+      --accent: #00d9ff;
+      --dark: #060608;
+      --dark-2: #0d0d12;
+      --light: #ffffff;
+      --muted: #9ca3af;
+    }
 
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            bottom: -2px;
-            left: -2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-radius: 0.6rem;
-            z-index: -1;
-            filter: blur(8px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+    * { -webkit-tap-highlight-color: transparent; }
 
-        .gradient-border:hover::before {
-            opacity: 1;
-        }
+    html { scroll-behavior: smooth; }
 
-        .tech-tag {
-            background: linear-gradient(90deg, #00ff9d20, #6e00ff20);
-            border: 1px solid var(--primary);
-            transition: all 0.3s ease;
-        }
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--dark);
+      color: var(--light);
+      overflow-x: hidden;
+    }
 
-        .tech-tag:hover {
-            background: linear-gradient(90deg, #00ff9d40, #6e00ff40);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 157, 0.2);
-        }
+    /* ===== Animated gradient background ===== */
+    .bg-gradient-anim {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: radial-gradient(circle at 20% 20%, rgba(110, 0, 255, 0.15), transparent 40%),
+                  radial-gradient(circle at 80% 30%, rgba(0, 217, 255, 0.12), transparent 40%),
+                  radial-gradient(circle at 50% 80%, rgba(0, 255, 157, 0.12), transparent 45%);
+      animation: bgShift 18s ease-in-out infinite alternate;
+    }
+    @keyframes bgShift {
+      0%   { transform: scale(1) translate(0, 0); }
+      100% { transform: scale(1.15) translate(2%, -2%); }
+    }
 
-        .nav-link {
-            position: relative;
-            color: var(--light);
-            text-decoration: none;
-        }
+    /* Grid overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+      -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
+    }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.3s ease;
-        }
+    #particles-js { position: fixed; inset: 0; z-index: 0; }
 
-        .nav-link:hover::after {
-            width: 100%;
-        }
+    /* ===== Text & gradients ===== */
+    .gradient-text {
+      background: linear-gradient(120deg, var(--primary), var(--accent), var(--secondary));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShine 5s linear infinite;
+    }
+    @keyframes textShine {
+      to { background-position: 200% center; }
+    }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+    .glow { text-shadow: 0 0 20px rgba(0, 255, 157, 0.5); }
 
-        ::-webkit-scrollbar-track {
-            background: var(--dark);
-        }
+    /* ===== Navbar ===== */
+    .navbar {
+      transition: all 0.4s ease;
+      background: rgba(6, 6, 8, 0);
+    }
+    .navbar.scrolled {
+      background: rgba(10, 10, 14, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .nav-link {
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      right: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover { color: var(--primary); }
+    .nav-link:hover::after,
+    .nav-link.active::after { width: 100%; }
+    .nav-link.active { color: var(--primary); }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--primary), var(--secondary));
-            border-radius: 4px;
-        }
+    /* ===== Buttons ===== */
+    .btn {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      isolation: isolate;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .btn:active { transform: translateY(-1px) scale(0.98); }
 
-        /* Particle Effects */
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+    .btn-primary {
+      background: linear-gradient(120deg, var(--primary), var(--accent));
+      color: #04130c;
+      box-shadow: 0 8px 25px rgba(0, 255, 157, 0.25);
+    }
+    .btn-primary:hover { box-shadow: 0 12px 35px rgba(0, 255, 157, 0.45); }
 
-        .custom-card {
-            backdrop-filter: blur(10px);
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(0, 255, 157, 0.1);
-            transition: all 0.3s ease;
-        }
+    .btn-outline {
+      border: 1px solid rgba(0, 255, 157, 0.4);
+      color: var(--primary);
+      background: rgba(0, 255, 157, 0.04);
+    }
+    .btn-outline:hover {
+      border-color: var(--primary);
+      background: rgba(0, 255, 157, 0.1);
+      box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
+    }
 
-        .custom-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 255, 157, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
-        }
+    /* Ripple */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      background: rgba(255,255,255,0.4);
+      animation: rippleAnim 0.6s linear;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
-        /* Shimmer Effect */
-        .shimmer {
-            position: relative;
-            overflow: hidden;
-        }
+    /* ===== Cards ===== */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 1.25rem;
+      transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.4s, border-color 0.4s;
+    }
+    .glass-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 255, 157, 0.35);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(0, 255, 157, 0.1);
+    }
 
-        .shimmer::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 20%,
-                rgba(255, 255, 255, 0.1) 30%,
-                transparent 40%
-            );
-            transform: rotate(30deg);
-            animation: shimmer 6s infinite;
-        }
+    .project-card { position: relative; overflow: hidden; }
+    .project-card .img-wrap { overflow: hidden; }
+    .project-card img {
+      transition: transform 0.6s cubic-bezier(.2,.8,.2,1);
+    }
+    .project-card:hover img { transform: scale(1.1); }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
-        }
-        
-        /* Custom Animations */
-        .slide-up {
-            animation: slideUp 0.6s ease forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
+    .gradient-border {
+      position: relative;
+    }
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(120deg, var(--primary), var(--secondary), var(--accent));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .gradient-border:hover::before { opacity: 1; }
 
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* ===== Tech tags ===== */
+    .tech-tag {
+      background: rgba(0, 255, 157, 0.08);
+      border: 1px solid rgba(0, 255, 157, 0.2);
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+    .tech-tag:hover {
+      background: rgba(0, 255, 157, 0.18);
+      transform: translateY(-2px);
+    }
 
-        /* Custom Classes */
-        .gradient-text {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    /* ===== Skill progress ===== */
+    .skill-bar {
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 1.4s cubic-bezier(.2,.8,.2,1);
+    }
 
-        .contact-info {
-            direction: ltr;
-            text-align: left;
-        }
-    </style>
+    /* ===== Float anim ===== */
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* ===== Avatar ring ===== */
+    .avatar-ring {
+      position: relative;
+    }
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+      animation: spin 6s linear infinite;
+      z-index: -1;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== Scrollbar ===== */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--dark-2); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--primary), var(--secondary));
+      border-radius: 99px;
+    }
+
+    /* ===== Cursor glow ===== */
+    .cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(circle, rgba(0,255,157,0.08), transparent 60%);
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s;
+    }
+
+    /* Section reveal */
+    .reveal { opacity: 0; transform: translateY(40px); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      transition: transform 0.4s ease, opacity 0.4s ease;
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    .mobile-menu.open { transform: translateX(0); opacity: 1; }
+
+    @media (max-width: 768px) {
+      .cursor-glow { display: none; }
+    }
+
+    /* ===== Light / Dark theme ===== */
+    body[data-theme="light"] {
+      --dark: #f4f6fb;
+      --dark-2: #e9edf5;
+      --light: #0d1117;
+      --muted: #4b5563;
+      background: var(--dark);
+      color: var(--light);
+    }
+    body[data-theme="light"] .glass-card {
+      background: rgba(0, 0, 0, 0.03);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    body[data-theme="light"] .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    body[data-theme="light"] .text-gray-300,
+    body[data-theme="light"] .text-gray-400 { color: #4b5563 !important; }
+    body[data-theme="light"] .grid-overlay {
+      background-image:
+        linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+    }
+    body[data-theme="light"] .mobile-menu { background: rgba(244,246,251,0.95); }
+
+    .theme-toggle {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(0,255,157,0.3);
+      background: rgba(0,255,157,0.06);
+      color: var(--primary);
+      transition: all 0.3s;
+    }
+    .theme-toggle:hover { transform: rotate(20deg) scale(1.1); }
+
+    /* ===== Contact form ===== */
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.85rem;
+      padding: 0.9rem 1.1rem;
+      color: inherit;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      font-family: inherit;
+    }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0,255,157,0.12);
+    }
+    body[data-theme="light"] .form-input { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+    .form-status { min-height: 1.5rem; }
+
+    /* ===== Lightbox ===== */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(3,3,6,0.92);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+      padding: 1.5rem;
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+      max-width: 92%; max-height: 85%;
+      border-radius: 1rem;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+      transform: scale(0.9);
+      transition: transform 0.35s;
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; left: 1.5rem;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      color: #fff; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .lightbox-close:hover { background: rgba(255,0,80,0.3); transform: rotate(90deg); }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      color: #fff; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s;
+    }
+    .lightbox-nav:hover { background: rgba(0,255,157,0.25); }
+    .lightbox-prev { right: 1.5rem; }
+    .lightbox-next { left: 1.5rem; }
+    .project-card img { cursor: zoom-in; }
+  </style>
 </head>
-<body class="bg-[#0a0a0a] text-white min-h-screen">
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-[#0a0a0a]/90 backdrop-blur-lg z-50 border-b border-[#00ff9d]/10">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="gradient-text text-2xl font-bold">
-                    SANA Smart Living
-                </div>
-                <div class="flex gap-8">
-                    <a href="#projects" class="nav-link text-lg">نمونه کارها</a>
-                    <a href="#skills" class="nav-link text-lg">مهارت‌ها</a>
-                    <a href="#contact" class="nav-link text-lg">تماس</a>
-                </div>
-            </div>
+<body class="relative">
+
+  <!-- Backgrounds -->
+  <div class="bg-gradient-anim"></div>
+  <div class="grid-overlay"></div>
+  <div id="particles-js"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- ===== Navbar ===== -->
+  <nav class="navbar fixed top-0 left-0 w-full z-50 px-5 md:px-10 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-2 font-extrabold text-lg">
+        <span class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#00ff9d] to-[#00d9ff] flex items-center justify-center text-[#04130c]">
+          <i class="fas fa-microchip"></i>
+        </span>
+        <span>SANA <span class="gradient-text">Smart Living</span></span>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <button id="themeToggle" class="theme-toggle" title="تغییر حالت روشن/تاریک" type="button">
+          <i class="fas fa-moon"></i>
+        </button>
+        <a href="#contact" class="hidden md:inline-flex btn btn-primary px-5 py-2.5 rounded-full text-sm font-bold">
+          بزن بریم <i class="fas fa-arrow-left mr-1"></i>
+        </a>
+        <button id="menuBtn" class="md:hidden text-2xl text-[#00ff9d] z-50" type="button" aria-label="باز کردن منو">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="mobile-menu fixed inset-0 z-40 bg-[#0a0a0e]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 text-2xl font-bold md:hidden">
+    <a href="#home" class="mobile-link nav-link">خانه</a>
+    <a href="#projects" class="mobile-link nav-link">نمونه کارها</a>
+    <a href="#skills" class="mobile-link nav-link">مهارت‌ها</a>
+    <a href="#contact" class="mobile-link nav-link">تماس</a>
+  </div>
+
+  <!-- ===== Hero ===== -->
+  <section id="home" class="relative min-h-screen flex items-center px-5 md:px-10 pt-24 z-10">
+    <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+      <div class="text-center md:text-right">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm text-[#00ff9d] mb-6 reveal">
+          <span class="w-2 h-2 rounded-full bg-[#00ff9d] animate-pulse"></span>
+          آماده‌ی همکاری روی پروژه‌های جدید
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="min-h-screen flex items-center relative overflow-hidden py-20">
-        <div class="container mx-auto px-6">
-            <div class="text-center space-y-8 animate-float">
-                <h1 class="text-7xl md:text-8xl font-black gradient-text mb-8">
-                    آرمان رضایی
-                </h1>
-                <p class="text-3xl md:text-4xl text-[#00ff9d] font-bold mb-4">
-                    مدیر سخت‌افزار شرکت زندگی هوشمند سانا
-                </p>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    متخصص در طراحی و توسعه سیستم‌های الکترونیکی و IoT
-                </p>
-                <div class="flex justify-center gap-6 pt-8">
-                    <a href="#projects" class="px-8 py-4 bg-gradient-to-r from-[#00ff9d] to-[#6e00ff] rounded-full text-white font-bold hover:shadow-lg hover:shadow-[#00ff9d]/20 transition-all duration-300 transform hover:-translate-y-1">
-                        نمونه کارها
-                    </a>
-                    <a href="#contact" class="px-8 py-4 border-2 border-[#00ff9d] rounded-full text-[#00ff9d] font-bold hover:bg-[#00ff9d]/10 transition-all duration-300 transform hover:-translate-y-1">
-                        تماس با من
-                    </a>
-                </div>
-            </div>
+        <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4 reveal">
+          سلام، من <span class="gradient-text glow">آرمان رضایی</span> هستم
+        </h1>
+
+        <p class="text-lg md:text-xl text-gray-300 font-semibold mb-3 reveal">
+          مدیر سخت‌افزار شرکت زندگی هوشمند سانا
+        </p>
+        <p class="text-gray-400 max-w-lg mx-auto md:mr-0 mb-8 reveal">
+          متخصص در طراحی و توسعه سیستم‌های الکترونیکی و IoT — از طراحی برد PCB تا توسعه‌ی فریمور روی ESP و ساخت راهکارهای خانه‌ی هوشمند.
+        </p>
+
+        <div class="flex flex-wrap gap-4 justify-center md:justify-start reveal">
+          <a href="#projects" class="btn btn-primary px-7 py-3.5 rounded-full font-bold">
+            <i class="fas fa-folder-open ml-2"></i> نمونه کارها
+          </a>
+          <a href="#contact" class="btn btn-outline px-7 py-3.5 rounded-full font-bold">
+            <i class="fas fa-paper-plane ml-2"></i> تماس با من
+          </a>
         </div>
-    </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-24">
-        <div class="container mx-auto px-6">
-            <h2 class="text-5xl font-bold text-center mb-20 gradient-text">
-                نمونه کارها
-            </h2>
-            
-            <!-- Project 1 -->
-            <div class="custom-card mb-24 rounded-2xl p-1 project-card">
-                <div class="bg-[#0a0a0a] rounded-2xl p-8">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div class="space-y-6">
-                            <h3 class="text-3xl font-bold text-[#00ff9d]">طراحی برد سنسور دما و رطوبت</h3>
-                            <p class="text-gray-300 text-lg leading-relaxed">
-                                طراحی و ساخت برد سفارشی با قابلیت اتصال سنسور DHT22 برای سنجش دما و رطوبت محیط. این برد قابلیت اتصال به شبکه WiFi را دارد و می‌تواند داده‌ها را به سرور مرکزی ارسال کند.
-                            </p>
-                            <div class="flex flex-wrap gap-3">
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">ESP8266</span>
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">DHT22</span>
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">IoT</span>
-                            </div>
-                        </div>
-                        <div class="shimmer rounded-2xl overflow-hidden shadow-2xl">
-                            <img src="1.jpeg" alt="برد سنسور دما" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="custom-card mb-24 rounded-2xl p-1 project-card">
-                <div class="bg-[#0a0a0a] rounded-2xl p-8">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div class="shimmer rounded-2xl overflow-hidden shadow-2xl order-2 md:order-1">
-                            <img src="3.jpeg" alt="برد کنترل" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
-                        </div>
-                        <div class="space-y-6 order-1 md:order-2">
-                            <h3 class="text-3xl font-bold text-[#00ff9d]">برد کنترل هوشمند</h3>
-                            <p class="text-gray-300 text-lg leading-relaxed">
-                                طراحی برد کنترلی با قابلیت اتصال به شبکه Wi-Fi و کنترل از راه دور. مجهز به میکروکنترلر ESP32 با قابلیت‌های پیشرفته برای اتوماسیون خانگی و صنعتی.
-                            </p>
-                            <div class="flex flex-wrap gap-3">
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">ESP32</span>
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">Automation</span>
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">Smart Home</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="custom-card rounded-2xl p-1 project-card">
-                <div class="bg-[#0a0a0a] rounded-2xl p-8">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div class="space-y-6">
-                            <h3 class="text-3xl font-bold text-[#00ff9d]">ماژول کنترل رله</h3>
-                            <p class="text-gray-300 text-lg leading-relaxed">
-                                طراحی و ساخت ماژول 4 کاناله رله با قابلیت کنترل از طریق WiFi. این ماژول برای کنترل هوشمند روشنایی، تجهیزات برقی و سیستم‌های تهویه مطبوع بهینه‌سازی شده است.
-                            </p>
-                            <div class="flex flex-wrap gap-3">
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">Relay Control</span>
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">IoT</span>
-                                <span class="tech-tag px-6 py-2 rounded-full text-[#00ff9d]">Home Automation</span>
-                            </div>
-                        </div>
-                        <div class="shimmer rounded-2xl overflow-hidden shadow-2xl">
-                            <img src="2.jpeg" alt="ماژول رله" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="flex gap-8 mt-12 justify-center md:justify-start reveal">
+          <div>
+            <div class="text-3xl font-black gradient-text" data-count="50">0</div>
+            <div class="text-sm text-gray-400">پروژه موفق</div>
+          </div>
+          <div>
+            <div class="text-3xl font-black gradient-text" data-count="8">0</div>
+            <div class="text-sm text-gray-400">سال تجربه</div>
+          </div>
+          <div>
+            <div class="text-3xl font-black gradient-text" data-count="30">0</div>
+            <div class="text-sm text-gray-400">مشتری راضی</div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-24 bg-[#0a0a0a]/50">
-        <div class="container mx-auto px-6">
-            <h2 class="text-5xl font-bold text-center mb-20 gradient-text">
-                مهارت‌ها و تخصص‌ها
-            </h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="custom-card p-8 rounded-2xl skill-card">
-                    <div class="text-4xl text-[#00ff9d] mb-4">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#00ff9d] mb-4">طراحی PCB</h3>
-                    <p class="text-gray-300">
-                        تخصص در طراحی بردهای الکترونیکی پیشرفته با استفاده از نرم‌افزارهای حرفه‌ای
-                    </p>
-                </div>
-                <div class="custom-card p-8 rounded-2xl skill-card">
-                    <div class="text-4xl text-[#00ff9d] mb-4">
-                        <i class="fas fa-wifi"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#00ff9d] mb-4">IoT Development</h3>
-                    <p class="text-gray-300">
-                        توسعه سیستم‌های اینترنت اشیاء با استفاده از پلتفرم‌های ESP8266 و ESP32
-                    </p>
-                </div>
-                <div class="custom-card p-8 rounded-2xl skill-card">
-                    <div class="text-4xl text-[#00ff9d] mb-4">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#00ff9d] mb-4">Embedded Systems</h3>
-                    <p class="text-gray-300">
-                        برنامه‌نویسی و توسعه سیستم‌های نهفته با تمرکز بر کارایی و پایداری
-                    </p>
-                </div>
-                <div class="custom-card p-8 rounded-2xl skill-card">
-                    <div class="text-4xl text-[#00ff9d] mb-4">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#00ff9d] mb-4">خانه هوشمند</h3>
-                    <p class="text-gray-300">
-                        طراحی و پیاده‌سازی راهکارهای هوشمندسازی خانه و ساختمان
-                    </p>
-                </div>
+      <div class="flex justify-center reveal">
+        <div class="relative animate-float">
+          <div class="avatar-ring w-64 h-64 md:w-80 md:h-80 rounded-full p-1">
+            <div class="w-full h-full rounded-full bg-[#0d0d12] flex items-center justify-center overflow-hidden border border-white/5">
+              <i class="fas fa-microchip text-7xl md:text-8xl gradient-text"></i>
             </div>
+          </div>
+          <div class="absolute -bottom-4 -right-4 glass-card px-4 py-3 rounded-2xl flex items-center gap-2">
+            <i class="fas fa-bolt text-[#00d9ff]"></i>
+            <span class="text-sm font-bold">IoT & Embedded</span>
+          </div>
+          <div class="absolute -top-4 -left-4 glass-card px-4 py-3 rounded-2xl flex items-center gap-2">
+            <i class="fas fa-circuit-board text-[#00ff9d]"></i>
+            <span class="text-sm font-bold">PCB Design</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-24">
-        <div class="container mx-auto px-6">
-            <h2 class="text-5xl font-bold text-center mb-20 gradient-text">
-                تماس با من
-            </h2>
-            <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-                <!-- Contact Info -->
-                <div class="space-y-8">
-                    <!-- Phone -->
-                    <div class="custom-card p-6 rounded-2xl hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="window.location.href='tel:+989999915389'">
-                        <div class="flex items-center gap-6">
-                            <div class="w-16 h-16 rounded-full bg-[#00ff9d]/10 flex items-center justify-center">
-                                <i class="fas fa-phone text-[#00ff9d] text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-[#00ff9d] mb-2">شماره تماس</h3>
-                                <p class="text-gray-300 contact-info">+98 999 991 5389</p>
-                            </div>
-                        </div>
-                    </div>
+    <a href="#projects" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 hover:text-[#00ff9d] transition">
+      <i class="fas fa-chevron-down text-xl animate-bounce"></i>
+    </a>
+  </section>
 
-                    <!-- Company -->
-                    <div class="custom-card p-6 rounded-2xl hover:scale-105 transition-transform duration-300">
-                        <div class="flex items-center gap-6">
-                            <div class="w-16 h-16 rounded-full bg-[#00ff9d]/10 flex items-center justify-center">
-                                <i class="fas fa-building text-[#00ff9d] text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-[#00ff9d] mb-2">شرکت</h3>
-                                <p class="text-gray-300">شرکت زندگی هوشمند سانا</p>
-                            </div>
-                        </div>
-                    </div>
+  <!-- ===== Projects ===== -->
+  <section id="projects" class="relative py-24 px-5 md:px-10 z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#00ff9d] font-semibold tracking-widest text-sm">PORTFOLIO</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-2">نمونه <span class="gradient-text">کارها</span></h2>
+        <p class="text-gray-400 mt-4 max-w-xl mx-auto">منتخبی از پروژه‌های طراحی برد و توسعه‌ی سیستم‌های هوشمند</p>
+      </div>
 
-                    <!-- Position -->
-                    <div class="custom-card p-6 rounded-2xl hover:scale-105 transition-transform duration-300">
-                        <div class="flex items-center gap-6">
-                            <div class="w-16 h-16 rounded-full bg-[#00ff9d]/10 flex items-center justify-center">
-                                <i class="fas fa-user-tie text-[#00ff9d] text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-[#00ff9d] mb-2">سمت</h3>
-                                <p class="text-gray-300">مدیر سخت‌افزار</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Expertise -->
-                <div class="custom-card p-8 rounded-2xl">
-                    <h3 class="text-2xl font-bold text-center gradient-text mb-8">تخصص‌های حرفه‌ای</h3>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="expertise-item bg-[#00ff9d]/5 p-4 rounded-xl hover:bg-[#00ff9d]/10 transition-colors">
-                            <i class="fas fa-microchip text-[#00ff9d] ml-3"></i>
-                            طراحی PCB
-                        </div>
-                        <div class="expertise-item bg-[#00ff9d]/5 p-4 rounded-xl hover:bg-[#00ff9d]/10 transition-colors">
-                            <i class="fas fa-wifi text-[#00ff9d] ml-3"></i>
-                            IoT Development
-                        </div>
-                        <div class="expertise-item bg-[#00ff9d]/5 p-4 rounded-xl hover:bg-[#00ff9d]/10 transition-colors">
-                            <i class="fas fa-code text-[#00ff9d] ml-3"></i>
-                            Embedded Systems
-                        </div>
-                        <div class="expertise-item bg-[#00ff9d]/5 p-4 rounded-xl hover:bg-[#00ff9d]/10 transition-colors">
-                            <i class="fas fa-home text-[#00ff9d] ml-3"></i>
-                            خانه هوشمند
-                        </div>
-                    </div>
-                </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <article class="glass-card gradient-border project-card reveal">
+          <div class="img-wrap rounded-t-[1.25rem] h-52">
+            <img src="1.jpeg" alt="برد سنسور دما و رطوبت" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">طراحی برد سنسور دما و رطوبت</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              برد اختصاصی مبتنی بر DHT22 با اتصال WiFi که داده‌ها را به سرور مرکزی ارسال می‌کند.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">ESP8266</span>
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">DHT22</span>
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">IoT</span>
             </div>
+          </div>
+        </article>
+
+        <article class="glass-card gradient-border project-card reveal">
+          <div class="img-wrap rounded-t-[1.25rem] h-52">
+            <img src="3.jpeg" alt="برد کنترل هوشمند" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">برد کنترل هوشمند</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              برد کنترل هوشمند مبتنی بر ESP32 با اتصال Wi-Fi، کنترل از راه دور و اتوماسیون خانگی و صنعتی.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">ESP32</span>
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">Automation</span>
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">Smart Home</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="glass-card gradient-border project-card reveal">
+          <div class="img-wrap rounded-t-[1.25rem] h-52">
+            <img src="2.jpeg" alt="ماژول کنترل رله" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">ماژول کنترل رله</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+              ماژول رله ۴ کاناله با کنترل WiFi برای روشنایی، تجهیزات الکتریکی و سیستم‌های HVAC.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">Relay Control</span>
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">IoT</span>
+              <span class="tech-tag text-xs px-3 py-1 rounded-full">Home Automation</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section id="skills" class="relative py-24 px-5 md:px-10 z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#00ff9d] font-semibold tracking-widest text-sm">EXPERTISE</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-2"><span class="gradient-text">مهارت‌ها</span> و تخصص‌ها</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10">
+        <div class="space-y-7 reveal">
+          <div class="skill-item">
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold"><i class="fas fa-circuit-board text-[#00ff9d] ml-2"></i> طراحی PCB</span>
+              <span class="text-[#00ff9d]">95%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="95%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold"><i class="fas fa-wifi text-[#00d9ff] ml-2"></i> توسعه IoT</span>
+              <span class="text-[#00ff9d]">90%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="90%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold"><i class="fas fa-microchip text-[#6e00ff] ml-2"></i> Embedded Systems</span>
+              <span class="text-[#00ff9d]">88%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="88%"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="flex justify-between mb-2">
+              <span class="font-semibold"><i class="fas fa-house-signal text-[#00ff9d] ml-2"></i> خانه هوشمند</span>
+              <span class="text-[#00ff9d]">92%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-fill" data-width="92%"></div></div>
+          </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="py-8 bg-[#0a0a0a] border-t border-[#00ff9d]/10">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-500">© 2024 آرمان رضایی - تمامی حقوق محفوظ است</p>
+        <div class="grid grid-cols-2 gap-5">
+          <div class="glass-card p-6 text-center reveal">
+            <i class="fas fa-circuit-board text-4xl gradient-text mb-3"></i>
+            <h4 class="font-bold">طراحی PCB</h4>
+            <p class="text-xs text-gray-400 mt-1">از شماتیک تا تولید</p>
+          </div>
+          <div class="glass-card p-6 text-center reveal">
+            <i class="fas fa-wifi text-4xl gradient-text mb-3"></i>
+            <h4 class="font-bold">IoT Development</h4>
+            <p class="text-xs text-gray-400 mt-1">اتصال و کلود</p>
+          </div>
+          <div class="glass-card p-6 text-center reveal">
+            <i class="fas fa-microchip text-4xl gradient-text mb-3"></i>
+            <h4 class="font-bold">Embedded Systems</h4>
+            <p class="text-xs text-gray-400 mt-1">فریمور و RTOS</p>
+          </div>
+          <div class="glass-card p-6 text-center reveal">
+            <i class="fas fa-house-signal text-4xl gradient-text mb-3"></i>
+            <h4 class="font-bold">خانه هوشمند</h4>
+            <p class="text-xs text-gray-400 mt-1">اتوماسیون کامل</p>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <!-- Particle.js -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: '#00ff9d' },
-                shape: { type: 'circle' },
-                opacity: {
-                    value: 0.5,
-                    random: false,
-                    animation: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    animation: { enable: true, speed: 2, size_min: 0.1, sync: false }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#00ff9d',
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: { enable: true, mode: 'grab' },
-                    onclick: { enable: true, mode: 'push' },
-                    resize: true
-                },
-                modes: {
-                    grab: { distance: 140, line_linked: { opacity: 0.5 } },
-                    push: { particles_nb: 4 }
-                }
-            },
-            retina_detect: true
-        });
+  <!-- ===== Contact ===== -->
+  <section id="contact" class="relative py-24 px-5 md:px-10 z-10">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#00ff9d] font-semibold tracking-widest text-sm">GET IN TOUCH</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-2">تماس <span class="gradient-text">با من</span></h2>
+        <p class="text-gray-400 mt-4">برای همکاری یا مشاوره‌ی پروژه در دسترس هستم</p>
+      </div>
 
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
+      <div class="grid sm:grid-cols-3 gap-6">
+        <a href="tel:+989999915389" class="glass-card p-7 text-center reveal block group">
+          <i class="fas fa-phone text-3xl text-[#00ff9d] mb-3 group-hover:scale-110 transition"></i>
+          <h4 class="font-bold mb-1">تلفن</h4>
+          <p class="text-gray-400 text-sm" dir="ltr">+98 999 991 5389</p>
+        </a>
+        <div class="glass-card p-7 text-center reveal">
+          <i class="fas fa-building text-3xl text-[#00d9ff] mb-3"></i>
+          <h4 class="font-bold mb-1">شرکت</h4>
+          <p class="text-gray-400 text-sm">زندگی هوشمند سانا</p>
+        </div>
+        <div class="glass-card p-7 text-center reveal">
+          <i class="fas fa-user-tie text-3xl text-[#6e00ff] mb-3"></i>
+          <h4 class="font-bold mb-1">سمت</h4>
+          <p class="text-gray-400 text-sm">مدیر سخت‌افزار</p>
+        </div>
+      </div>
 
-        // Hero Section Animation
-        gsap.from('.hero-content > *', {
-            y: 100,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: 'power3.out'
-        });
+      <form id="contactForm" class="glass-card p-7 md:p-10 mt-10 reveal" novalidate>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label class="text-sm text-gray-400 mb-2 block">نام شما</label>
+            <input type="text" name="name" required class="form-input" placeholder="نام و نام خانوادگی" />
+          </div>
+          <div>
+            <label class="text-sm text-gray-400 mb-2 block">ایمیل</label>
+            <input type="email" name="email" required class="form-input" placeholder="example@mail.com" dir="ltr" />
+          </div>
+        </div>
 
-        // Animate project cards on scroll
-        gsap.utils.toArray('.project-card').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top bottom-=100',
-                    end: 'top center',
-                    toggleActions: 'play none none reverse',
-                    scrub: 1
-                },
-                opacity: 0,
-                y: 100,
-                scale: 0.9,
-                duration: 1.5
-            });
-        });
+        <div class="mt-5">
+          <label class="text-sm text-gray-400 mb-2 block">موضوع</label>
+          <input type="text" name="subject" class="form-input" placeholder="موضوع پیام" />
+        </div>
+        <div class="mt-5">
+          <label class="text-sm text-gray-400 mb-2 block">پیام</label>
+          <textarea name="message" rows="5" required class="form-input resize-none" placeholder="پیام خود را بنویسید..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-full mt-6 py-3.5 rounded-full font-bold">
+          <i class="fas fa-paper-plane ml-2"></i> ارسال پیام
+        </button>
+        <p id="formStatus" class="form-status text-center text-sm mt-4"></p>
+      </form>
 
-        // Animate skill cards
-        gsap.utils.toArray('.skill-card').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top bottom-=50',
-                    toggleActions: 'play none none reverse'
-                },
-                opacity: 0,
-                y: 50,
-                duration: 0.8,
-                delay: i * 0.1
-            });
-        });
+      <div class="flex justify-center gap-4 mt-12 reveal">
+        <a href="#" class="w-12 h-12 glass-card rounded-full flex items-center justify-center text-lg hover:text-[#00ff9d] transition"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="w-12 h-12 glass-card rounded-full flex items-center justify-center text-lg hover:text-[#00ff9d] transition"><i class="fab fa-github"></i></a>
+        <a href="#" class="w-12 h-12 glass-card rounded-full flex items-center justify-center text-lg hover:text-[#00ff9d] transition"><i class="fab fa-telegram"></i></a>
+        <a href="#" class="w-12 h-12 glass-card rounded-full flex items-center justify-center text-lg hover:text-[#00ff9d] transition"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </section>
 
-        // Contact section animations
-        const contactElements = gsap.utils.toArray('#contact .custom-card');
-        contactElements.forEach((el, i) => {
-            gsap.from(el, {
-                scrollTrigger: {
-                    trigger: el,
-                    start: 'top bottom-=50',
-                    toggleActions: 'play none none reverse'
-                },
-                opacity: 0,
-                x: i % 2 === 0 ? -50 : 50,
-                duration: 0.8,
-                ease: 'power2.out'
-            });
-        });
+  <!-- ===== Footer ===== -->
+  <footer class="relative z-10 border-t border-white/5 py-8 text-center text-gray-500 text-sm">
+    © 2024 آرمان رضایی — تمامی حقوق محفوظ است
+  </footer>
 
-        // Hover animations for project cards
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                gsap.to(card, {
-                    scale: 1.02,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lbClose" type="button"><i class="fas fa-times"></i></button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" type="button"><i class="fas fa-chevron-right"></i></button>
+    <img src="" alt="نمایش پروژه" id="lbImage" />
+    <button class="lightbox-nav lightbox-next" id="lbNext" type="button"><i class="fas fa-chevron-left"></i></button>
+  </div>
 
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, {
-                    scale: 1,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-        });
+  <!-- ===== Scripts ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-        // Smooth scroll with offset
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                const offset = 100; // Adjust this value based on your header height
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            });
-        });
+  <script>
+    /* ===== Particles ===== */
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 900 } },
+        color: { value: ['#00ff9d', '#00d9ff', '#6e00ff'] },
+        shape: { type: 'circle' },
+        opacity: { value: 0.4, random: true },
+        size: { value: 2.5, random: true },
+        line_linked: { enable: true, distance: 140, color: '#00ff9d', opacity: 0.15, width: 1 },
+        move: { enable: true, speed: 1.4, out_mode: 'out' }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: { enable: true, mode: 'grab' },
+          onclick: { enable: true, mode: 'push' },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 160, line_linked: { opacity: 0.4 } },
+          push: { particles_nb: 3 }
+        }
+      },
+      retina_detect: true
+    });
 
-        // Navbar background change on scroll
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(10, 10, 10, 0.95)';
-                nav.style.backdropFilter = 'blur(10px)';
-            } else {
-                nav.style.background = 'rgba(10, 10, 10, 0.8)';
-                nav.style.backdropFilter = 'blur(5px)';
+    /* ===== GSAP reveal animations ===== */
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 88%' }
+      });
+    });
+
+    /* ===== Skill bars fill ===== */
+    gsap.utils.toArray('.skill-fill').forEach((bar) => {
+      ScrollTrigger.create({
+        trigger: bar,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => { bar.style.width = bar.dataset.width; }
+      });
+    });
+
+    /* ===== Animated counters ===== */
+    gsap.utils.toArray('[data-count]').forEach((el) => {
+      const target = +el.dataset.count;
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.to({ v: 0 }, {
+            v: target,
+            duration: 2,
+            ease: 'power2.out',
+            onUpdate: function () {
+              el.textContent = Math.floor(this.targets()[0].v) + '+';
             }
+          });
+        }
+      });
+    });
+
+    /* ===== Navbar scroll state ===== */
+    const navbar = document.querySelector('.navbar');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+
+      let current = '';
+      sections.forEach((sec) => {
+        if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+      });
+      navLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      });
+    });
+
+    /* ===== Mobile menu ===== */
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = menuBtn.querySelector('i');
+
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      menuIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
+    });
+    document.querySelectorAll('.mobile-link').forEach((l) =>
+      l.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        menuIcon.className = 'fas fa-bars';
+      })
+    );
+
+    /* ===== Button ripple ===== */
+    document.querySelectorAll('.btn').forEach((btn) => {
+      btn.addEventListener('click', function (e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
+        ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+
+    /* ===== Cursor glow ===== */
+    const cursor = document.getElementById('cursorGlow');
+    if (cursor) {
+      window.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, { left: e.clientX, top: e.clientY, duration: 0.6, ease: 'power2.out' });
+      });
+    }
+
+    /* ===== 3D tilt on project cards ===== */
+    document.querySelectorAll('.project-card').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `translateY(-8px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+
+    /* ===== Smooth anchor scroll ===== */
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* ===== Theme toggle ===== */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'light') {
+      document.body.setAttribute('data-theme', 'light');
+      if (themeIcon) themeIcon.className = 'fas fa-sun';
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        const isLight = document.body.getAttribute('data-theme') === 'light';
+        if (isLight) {
+          document.body.removeAttribute('data-theme');
+          if (themeIcon) themeIcon.className = 'fas fa-moon';
+          localStorage.setItem('theme', 'dark');
+        } else {
+          document.body.setAttribute('data-theme', 'light');
+          if (themeIcon) themeIcon.className = 'fas fa-sun';
+          localStorage.setItem('theme', 'light');
+        }
+      });
+    }
+
+    /* ===== Contact form ===== */
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(contactForm));
+
+      if (!data.name || !data.email || !data.message) {
+        formStatus.textContent = 'لطفاً نام، ایمیل و پیام را پر کنید.';
+        formStatus.style.color = '#ff5a5a';
+        return;
+      }
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
+      if (!emailOk) {
+        formStatus.textContent = 'ایمیل وارد شده معتبر نیست.';
+        formStatus.style.color = '#ff5a5a';
+        return;
+      }
+
+      formStatus.textContent = 'در حال ارسال...';
+      formStatus.style.color = '#00d9ff';
+
+      try {
+        const res = await fetch('https://formspree.io/f/mkolwlbp', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(contactForm)
         });
+        if (res.ok) {
+          formStatus.textContent = 'پیام شما با موفقیت ارسال شد ✅';
+          formStatus.style.color = '#00ff9d';
+          contactForm.reset();
+        } else {
+          throw new Error('send failed');
+        }
+      } catch (err) {
+        const subject = encodeURIComponent(data.subject || 'پیام از سایت');
+        const body = encodeURIComponent(`نام: ${data.name}\nایمیل: ${data.email}\n\n${data.message}`);
+        window.location.href = `mailto:info@sana.com?subject=${subject}&body=${body}`;
+        formStatus.textContent = 'در حال باز کردن برنامه ایمیل شما...';
+        formStatus.style.color = '#00ff9d';
+        contactForm.reset();
+      }
+    });
 
-        // Custom cursor glow effect
-        const cursor = document.createElement('div');
-        cursor.className = 'custom-cursor';
-        document.body.appendChild(cursor);
+    /* ===== Lightbox gallery ===== */
+    const lightbox = document.getElementById('lightbox');
+    const lbImage = document.getElementById('lbImage');
+    const lbClose = document.getElementById('lbClose');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+    const galleryImgs = Array.from(document.querySelectorAll('.project-card img'));
+    let lbIndex = 0;
 
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-        });
+    function openLightbox(i) {
+      lbIndex = i;
+      lbImage.src = galleryImgs[lbIndex].src;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function showImg(dir) {
+      lbIndex = (lbIndex + dir + galleryImgs.length) % galleryImgs.length;
+      lbImage.src = galleryImgs[lbIndex].src;
+    }
 
-        // Parallax effect for background particles
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-
-            gsap.to('#particles-js', {
-                duration: 1,
-                x: mouseX * 50,
-                y: mouseY * 50,
-                ease: 'power1.out'
-            });
-        });
-
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px'
-        };
-
-        const fadeInElements = document.querySelectorAll('.fade-in');
-        
-        const fadeInObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    fadeInObserver.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        fadeInElements.forEach(element => {
-            fadeInObserver.observe(element);
-        });
-    </script>
+    galleryImgs.forEach((img, i) => img.addEventListener('click', () => openLightbox(i)));
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', () => showImg(-1));
+    lbNext.addEventListener('click', () => showImg(1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showImg(-1);
+      if (e.key === 'ArrowLeft') showImg(1);
+    });
+  </script>
 </body>
 </html>
+
